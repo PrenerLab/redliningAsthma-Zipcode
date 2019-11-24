@@ -1,0 +1,38 @@
+---
+title: "Asthma in MO"
+author: "Ava Gagner"
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+---
+
+## Introduction
+Asthma data for state of Mo at Zip code level 
+
+## Dependencies
+
+
+```{r load-packages}
+# tidyverse packages
+library(tigris)
+# other packages
+
+```
+
+## Load Data
+loading asthma data from MoPhim data base
+
+```{r load-data}
+
+```
+
+## Part 1
+### Question 1
+A description of what your code should accomplish.
+
+```{r p1-q1}
+
+```
+
+A description of the results.

@@ -1,0 +1,72 @@
+---
+title: "Graphing demographic with asthma"
+author: "Ava"
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+---
+
+
+```{r}
+csv_pov <- read_csv(here("csv", "poverty.csv"))
+```
+
+```{r}
+ggplot(csv_pov, aes(x = density, y = count))+ geom_point(shape = 21)+
+            labs(x = "poverty", y = "asthma") +
+   geom_smooth(method='lm')
+```
+
+trying with shapefile 
+
+```{r}
+shapefile_pov <- st_read(here("csv", "poverty", "poverty.shp"), stringsAsFactors = FALSE)
+```
+
+```{r}
+ggplot(shapefile_pov, aes(x = density, y = count))+ geom_point(shape = 21)+
+            labs(x = "poverty", y = "asthma") +
+   geom_smooth(method='lm')
+```
+```{r}
+shapefile_income <- st_read(here("csv", "median_income", "median_income.shp"), stringsAsFactors = FALSE)
+```
+
+
+```{r}
+ggplot(shapefile_income, aes(x = estimate_x, y = count))+ geom_point(shape = 21)+
+            labs(x = "median income", y = "asthma") +
+  geom_smooth(method='lm')
+```
+
+```{r}
+shapefile_medicaid <- st_read(here("csv", "medicaid", "medicaid.shp"), stringsAsFactors = FALSE)
+```
+```{r}
+ggplot(shapefile_medicaid, aes(x = percent, y = count))+ geom_point(shape = 21)+
+            labs(x = "medicaid", y = "asthma") +
+   geom_smooth(method='lm')
+```
+
+
+```{r}
+shapefile_aa <- st_read(here("csv", "precent_aa", "precent_aa.shp"), stringsAsFactors = FALSE)
+```
+
+```{r}
+ggplot(shapefile_aa, aes(x = percent, y = count))+ geom_point(shape = 21)+
+            labs(x = "Percent African American", y = "asthma") +
+   geom_smooth(method='lm')
+```
+
+```{r}
+shapefile_home <- st_read(here("csv", "home_value", "home_value.shp"), stringsAsFactors = FALSE)
+```
+```{r}
+ggplot(home_metro, aes(x = estimate.x, y = count))+ geom_point(shape = 21)+
+            labs(x = "median home value", y = "asthma") +
+   geom_smooth(method='lm')
+```
+
+
