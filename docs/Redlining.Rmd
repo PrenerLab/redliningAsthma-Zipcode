@@ -1,0 +1,151 @@
+---
+title: "Redlining Comparisons"
+author: "Emily McCarthy"
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+---
+
+## Introduction
+This notebook will
+- replace Ava's athsma data comparisions with redlining comparisons
+- summarize 50 words the relationship between redlining and comtemporary demographic %black/%poverty
+
+## Dependencies
+This notebook requires...
+
+```{r load-packages}
+# tidyverse packages
+library(dplyr)       # data wrangling
+library(readr)       # read/write tabular data
+library(stringr)     # work with strings
+library(tidyr)       # data wrangling
+# spatial packages
+library(janitor)     # data wrangling
+library(sf)          # spatial data tools
+library(mapview)     # projections
+library(tigris)      # census data wrangling 
+# other packages
+library(here)        # file path management
+library(naniar)      # missing data
+library(ggplot2)
+library(viridis)      # palettes
+library(leaflet)
+library(tidycensus) 
+library(sp)
+library(ggplot2)   
+library(RColorBrewer)  # color palettes
+library(viridis)       # color palettes
+
+```
+
+## Load Data
+This notebook requires...
+
+```{r load-data}
+redlining <- st_read(here("data", "clean", "STL_HOLC_zip40.geoJSON"))
+```
+
+Removing all zip codes that were not graded.
+
+```{r p1-q1}
+redlining <- filter(redlining, is.na(total_graded)== FALSE)
+```
+
+Loading population data
+
+```{r}
+acs <- load_variables(year = 2015, dataset = "acs5", cache = TRUE)
+pop <- get_acs(geography = "zip code tabulation area", year = 2015, variables = "B01003_001", survey = "acs5")
+```
+
+Subsetting for the STL Metro Area
+
+```{r}
+pop %>%
+  filter(GEOID >= (63005))%>%
+  filter(GEOID <= (63390)) -> pop
+```
+
+```{r}
+pop %>%
+  rename(ZCTA = GEOID,
+         pop = estimate) %>%
+  select(ZCTA, pop) -> pop_metro
+```
+
+I am going to reduce columns in the redlining set to only show c and d grades- 
+
+```{r}
+redlining%>%
+  select(ZCTA, prop_cd)  -> redlining_cd
+```
+
+renaming col ZCTA to zip
+
+```{r}
+redlining_cd %>%
+  rename(zip = ZCTA) -> redlining_cd
+```
+
+joining C and D grades with population data
+
+```{r}
+cd <- left_join(redlining_cd, pop_metro, by = "ZCTA")
+```
+
+normalizing by population
+```{r}
+cd %>%
+mutate(percent = prop_cd/pop) %>%
+  rename(zip = ZCTA) -> cd
+```
+
+saving csv for redlining grades C and D
+```{r}
+write.csv(cd, here("redlining", "percent_cd.csv"))
+```
+
+saving as shapefile 
+```{r}
+dir.create(here("redlining", "percent_cd"))
+st_write(cd, dsn = here("redlining", "percent_cd", "percent_cd.shp"), delete_dsn = TRUE)
+```
+
+#Up next: 
+-import percent_aa.shp
+-redlining and athma (1 plot)
+-redlining and race (1 plot)
+
+Importing .shp for comparison
+```{r}
+shapefile_aa <- st_read(here("csv", "precent_aa", "precent_aa.shp"), stringsAsFactors = FALSE)
+```
+
+Joining redlining info to athasma/AA data
+
+```{r}
+csv_aa <- read_csv(here("csv", "percent_aa.csv"))
+```
+```{r}
+st_geometry(redlining_cd) <- NULL
+```
+```{r}
+redlining_comparison <- left_join(redlining_cd, shapefile_aa, by = "zip")
+```
+
+Now that my data are joined I will make comparisons using ggplot
+
+```{r}
+ggplot(redlining_comparison, aes(x = prop_cd, y = count))+ geom_point(shape = 21)+
+            labs(x = "Percent of redling grade C or D", y = "asthma") +
+   geom_smooth(method='lm')
+```
+
+```{r}
+ggplot(redlining_comparison, aes(x = prop_cd, y = percent))+ geom_point(shape = 21)+
+            labs(x = "Percent of redlining grade C or D", y = "Percent African American") +
+   geom_smooth(method='lm')
+```
+
