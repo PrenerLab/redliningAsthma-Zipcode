@@ -1,7 +1,7 @@
 Cleaning Asthma Data
 ================
 Ava
-(December 05, 2019)
+(December 06, 2019)
 
 Introduction
 ------------
@@ -60,7 +60,7 @@ library(tigris)      # census data wrangling
 library(here)        # file path management
 ```
 
-    ## here() starts at /Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode
+    ## here() starts at /Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode
 
 ``` r
 library(naniar)      # missing data
@@ -98,13 +98,13 @@ asthma_15 <- read_csv(here("data","raw", "asthma", "asthma2015.csv"))
     ## )
 
     ## Warning: 1031 parsing failures.
-    ## row col  expected    actual                                                                                                                file
-    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
-    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
-    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
-    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
-    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
-    ## ... ... ......... ......... ...................................................................................................................
+    ## row col  expected    actual                                                                                             file
+    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
+    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
+    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
+    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
+    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2015.csv'
+    ## ... ... ......... ......... ................................................................................................
     ## See problems(...) for more details.
 
 Getting rid of first three rows bc they are pointless text.
@@ -498,13 +498,13 @@ asthma_14<- read_csv(here("data","raw", "asthma", "asthma2014.csv"))
     ## )
 
     ## Warning: 1031 parsing failures.
-    ## row col  expected    actual                                                                                                                file
-    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
-    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
-    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
-    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
-    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
-    ## ... ... ......... ......... ...................................................................................................................
+    ## row col  expected    actual                                                                                             file
+    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
+    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
+    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
+    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
+    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2014.csv'
+    ## ... ... ......... ......... ................................................................................................
     ## See problems(...) for more details.
 
 getting rid of first three rows bc they have nothing in them
@@ -558,13 +558,13 @@ asthma_13 <- read_csv(here("data","raw", "asthma", "asthma2013.csv"))
     ## )
 
     ## Warning: 1031 parsing failures.
-    ## row col  expected    actual                                                                                                                file
-    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
-    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
-    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
-    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
-    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
-    ## ... ... ......... ......... ...................................................................................................................
+    ## row col  expected    actual                                                                                             file
+    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
+    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
+    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
+    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
+    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2013.csv'
+    ## ... ... ......... ......... ................................................................................................
     ## See problems(...) for more details.
 
 Getting rid of first 4 rows bc they have no data
@@ -618,13 +618,13 @@ asthma_12 <- read_csv(here("data","raw", "asthma", "asthma2012.csv"))
     ## )
 
     ## Warning: 1031 parsing failures.
-    ## row col  expected    actual                                                                                                                file
-    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
-    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
-    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
-    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
-    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
-    ## ... ... ......... ......... ...................................................................................................................
+    ## row col  expected    actual                                                                                             file
+    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
+    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
+    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
+    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
+    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2012.csv'
+    ## ... ... ......... ......... ................................................................................................
     ## See problems(...) for more details.
 
 getting rid of empty cols
@@ -678,13 +678,13 @@ asthma_11 <- read_csv(here("data","raw", "asthma", "asthma2011.csv"))
     ## )
 
     ## Warning: 1031 parsing failures.
-    ## row col  expected    actual                                                                                                                file
-    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
-    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
-    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
-    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
-    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
-    ## ... ... ......... ......... ...................................................................................................................
+    ## row col  expected    actual                                                                                             file
+    ##   1  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
+    ##   2  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
+    ##   3  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
+    ##   4  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
+    ##   5  -- 3 columns 4 columns '/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/raw/asthma/asthma2011.csv'
+    ## ... ... ......... ......... ................................................................................................
     ## See problems(...) for more details.
 
 getting rid of empty cols
@@ -839,8 +839,8 @@ dir.create(here("data","clean", "asthma", "asthma_full"))
 ```
 
     ## Warning in dir.create(here("data", "clean", "asthma", "asthma_full")): '/
-    ## Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-
-    ## Zipcode/data/clean/asthma/asthma_full' already exists
+    ## Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/
+    ## asthma/asthma_full' already exists
 
 ``` r
 st_write(asthma_full, dsn = here("data", "clean", "asthma", "asthma_full", "asthma_full.shp"), delete_dsn = TRUE)
@@ -849,8 +849,8 @@ st_write(asthma_full, dsn = here("data", "clean", "asthma", "asthma_full", "asth
     ## Warning in abbreviate_shapefile_names(obj): Field names abbreviated for
     ## ESRI Shapefile driver
 
-    ## Deleting source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/asthma/asthma_full/asthma_full.shp' using driver `ESRI Shapefile'
-    ## Writing layer `asthma_full' to data source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/asthma/asthma_full/asthma_full.shp' using driver `ESRI Shapefile'
+    ## Deleting source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/asthma/asthma_full/asthma_full.shp' using driver `ESRI Shapefile'
+    ## Writing layer `asthma_full' to data source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/asthma/asthma_full/asthma_full.shp' using driver `ESRI Shapefile'
     ## features:       127
     ## fields:         2
     ## geometry type:  Multi Polygon
@@ -881,7 +881,7 @@ normalizing by pop
 
 ``` r
 aa %>%
-mutate(percent_aa = estimate/pop) %>%
+mutate(prcnt_aa = estimate/pop) %>%
  rename(african_american = estimate) -> aa
 ```
 
@@ -893,7 +893,7 @@ aa <- left_join(asthma_full, aa, by = "zip")
 
 ``` r
 aa %>%
-  select(zip, asthma_rate, african_american, pop, percent_aa) -> aa
+  select(zip, asthma_rate, african_american, pop, prcnt_aa) -> aa
 ```
 
 saving shapefile file for % african american
@@ -903,8 +903,8 @@ dir.create(here("data","clean", "demo", "precent_aa"))
 ```
 
     ## Warning in dir.create(here("data", "clean", "demo", "precent_aa")): '/
-    ## Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-
-    ## Zipcode/data/clean/demo/precent_aa' already exists
+    ## Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/
+    ## demo/precent_aa' already exists
 
 ``` r
 st_write(aa, dsn = here("data", "clean", "demo", "precent_aa", "precent_aa.shp"), delete_dsn = TRUE)
@@ -913,8 +913,8 @@ st_write(aa, dsn = here("data", "clean", "demo", "precent_aa", "precent_aa.shp")
     ## Warning in abbreviate_shapefile_names(obj): Field names abbreviated for
     ## ESRI Shapefile driver
 
-    ## Deleting source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/precent_aa/precent_aa.shp' using driver `ESRI Shapefile'
-    ## Writing layer `precent_aa' to data source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/precent_aa/precent_aa.shp' using driver `ESRI Shapefile'
+    ## Deleting source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/precent_aa/precent_aa.shp' using driver `ESRI Shapefile'
+    ## Writing layer `precent_aa' to data source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/precent_aa/precent_aa.shp' using driver `ESRI Shapefile'
     ## features:       127
     ## fields:         5
     ## geometry type:  Multi Polygon
@@ -967,8 +967,8 @@ dir.create(here("data","clean", "demo", "med_income"))
 ```
 
     ## Warning in dir.create(here("data", "clean", "demo", "med_income")): '/
-    ## Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-
-    ## Zipcode/data/clean/demo/med_income' already exists
+    ## Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/
+    ## demo/med_income' already exists
 
 ``` r
 st_write(median_income, dsn = here("data", "clean", "demo", "med_income", "med_income.shp"), delete_dsn = TRUE)
@@ -977,8 +977,8 @@ st_write(median_income, dsn = here("data", "clean", "demo", "med_income", "med_i
     ## Warning in abbreviate_shapefile_names(obj): Field names abbreviated for
     ## ESRI Shapefile driver
 
-    ## Deleting source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/med_income/med_income.shp' using driver `ESRI Shapefile'
-    ## Writing layer `med_income' to data source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/med_income/med_income.shp' using driver `ESRI Shapefile'
+    ## Deleting source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/med_income/med_income.shp' using driver `ESRI Shapefile'
+    ## Writing layer `med_income' to data source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/med_income/med_income.shp' using driver `ESRI Shapefile'
     ## features:       127
     ## fields:         5
     ## geometry type:  Multi Polygon
@@ -1031,8 +1031,8 @@ dir.create(here("data","clean", "demo", "home_value"))
 ```
 
     ## Warning in dir.create(here("data", "clean", "demo", "home_value")): '/
-    ## Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-
-    ## Zipcode/data/clean/demo/home_value' already exists
+    ## Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/
+    ## demo/home_value' already exists
 
 ``` r
 st_write(home_value, dsn = here("data", "clean", "demo", "home_value", "home_value.shp"), delete_dsn = TRUE)
@@ -1041,8 +1041,8 @@ st_write(home_value, dsn = here("data", "clean", "demo", "home_value", "home_val
     ## Warning in abbreviate_shapefile_names(obj): Field names abbreviated for
     ## ESRI Shapefile driver
 
-    ## Deleting source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/home_value/home_value.shp' using driver `ESRI Shapefile'
-    ## Writing layer `home_value' to data source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/home_value/home_value.shp' using driver `ESRI Shapefile'
+    ## Deleting source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/home_value/home_value.shp' using driver `ESRI Shapefile'
+    ## Writing layer `home_value' to data source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/home_value/home_value.shp' using driver `ESRI Shapefile'
     ## features:       127
     ## fields:         5
     ## geometry type:  Multi Polygon
@@ -1094,9 +1094,9 @@ saving as shapefile
 dir.create(here("data","clean", "demo", "medicaid"))
 ```
 
-    ## Warning in dir.create(here("data", "clean", "demo", "medicaid")): '/
-    ## Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-
-    ## Zipcode/data/clean/demo/medicaid' already exists
+    ## Warning in dir.create(here("data", "clean", "demo", "medicaid")): '/Users/
+    ## avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/
+    ## medicaid' already exists
 
 ``` r
 st_write(medicaid, dsn = here("data", "clean", "demo", "medicaid", "medicaid.shp"), delete_dsn = TRUE)
@@ -1105,8 +1105,8 @@ st_write(medicaid, dsn = here("data", "clean", "demo", "medicaid", "medicaid.shp
     ## Warning in abbreviate_shapefile_names(obj): Field names abbreviated for
     ## ESRI Shapefile driver
 
-    ## Deleting source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/medicaid/medicaid.shp' using driver `ESRI Shapefile'
-    ## Writing layer `medicaid' to data source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/medicaid/medicaid.shp' using driver `ESRI Shapefile'
+    ## Deleting source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/medicaid/medicaid.shp' using driver `ESRI Shapefile'
+    ## Writing layer `medicaid' to data source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/medicaid/medicaid.shp' using driver `ESRI Shapefile'
     ## features:       127
     ## fields:         5
     ## geometry type:  Multi Polygon
@@ -1143,9 +1143,9 @@ normalizing by povery total
 
 ``` r
 poverty %>%
-  mutate(poverty_percent = estimate.x/estimate.y) %>%
+  mutate(pov_percent = estimate.x/estimate.y) %>%
   rename(zip = GEOID,
-         poverty = estimate.x,
+         pov = estimate.x,
          pov_total = estimate.y) -> poverty
 ```
 
@@ -1157,7 +1157,7 @@ poverty <- left_join(asthma_full, poverty, by = "zip")
 
 ``` r
 poverty %>%
-  select(zip, asthma_rate, poverty, pov_total, poverty_percent) -> poverty
+  select(zip, asthma_rate, pov, pov_total, pov_percent) -> poverty
 ```
 
 ``` r
@@ -1165,8 +1165,8 @@ dir.create(here("data","clean", "demo", "poverty"))
 ```
 
     ## Warning in dir.create(here("data", "clean", "demo", "poverty")): '/Users/
-    ## avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-
-    ## Zipcode/data/clean/demo/poverty' already exists
+    ## avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/
+    ## poverty' already exists
 
 ``` r
 st_write(poverty, dsn = here("data", "clean", "demo", "poverty", "poverty.shp"), delete_dsn = TRUE)
@@ -1175,8 +1175,8 @@ st_write(poverty, dsn = here("data", "clean", "demo", "poverty", "poverty.shp"),
     ## Warning in abbreviate_shapefile_names(obj): Field names abbreviated for
     ## ESRI Shapefile driver
 
-    ## Deleting source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/poverty/poverty.shp' using driver `ESRI Shapefile'
-    ## Writing layer `poverty' to data source `/Users/avagagner/Desktop/Courses/Spring2019/SOC4650/GitHub/redliningAsthma-Zipcode/data/clean/demo/poverty/poverty.shp' using driver `ESRI Shapefile'
+    ## Deleting source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/poverty/poverty.shp' using driver `ESRI Shapefile'
+    ## Writing layer `poverty' to data source `/Users/avagagner/Desktop/Courses/GitHub/redliningAsthma-Zipcode/data/clean/demo/poverty/poverty.shp' using driver `ESRI Shapefile'
     ## features:       127
     ## fields:         5
     ## geometry type:  Multi Polygon

@@ -7,6 +7,30 @@ output:
   html_notebook: default 
 ---
 
+```{r}
+# tidyverse packages
+library(dplyr)       # data wrangling
+library(readr)       # read/write tabular data
+library(stringr)     # work with strings
+library(tidyr)       # data wrangling
+# spatial packages
+library(janitor)     # data wrangling
+library(sf)          # spatial data tools
+library(mapview)     # projections
+library(tigris)      # census data wrangling 
+# other packages
+library(here)        # file path management
+library(naniar)      # missing data
+library(ggplot2)
+library(viridis)      # palettes
+library(leaflet)
+library(tidycensus) 
+library(sp)
+library(ggplot2)   
+library(RColorBrewer)  # color palettes
+library(viridis)       # color palettes
+```
+
 
 
 
