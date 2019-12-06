@@ -342,7 +342,7 @@ aa <- left_join(aa, pop, by = "zip")
 normalizing by pop
 ```{r}
 aa %>%
-mutate(percent_aa = estimate/pop) %>%
+mutate(prcnt_aa = estimate/pop) %>%
  rename(african_american = estimate) -> aa
 ```
 
@@ -353,7 +353,7 @@ aa <- left_join(asthma_full, aa, by = "zip")
 
 ```{r}
 aa %>%
-  select(zip, asthma_rate, african_american, pop, percent_aa) -> aa
+  select(zip, asthma_rate, african_american, pop, prcnt_aa) -> aa
 ```
 
 saving shapefile file for % african american 
@@ -513,9 +513,9 @@ poverty <- left_join(poverty, poverty_total, by = "GEOID")
 normalizing by povery total 
 ```{r}
 poverty %>%
-  mutate(poverty_percent = estimate.x/estimate.y) %>%
+  mutate(pov_percent = estimate.x/estimate.y) %>%
   rename(zip = GEOID,
-         poverty = estimate.x,
+         pov = estimate.x,
          pov_total = estimate.y) -> poverty
 ```
 
@@ -526,9 +526,8 @@ poverty <- left_join(asthma_full, poverty, by = "zip")
 
 ```{r}
 poverty %>%
-  select(zip, asthma_rate, poverty, pov_total, poverty_percent) -> poverty
+  select(zip, asthma_rate, pov, pov_total, pov_percent) -> poverty
 ```
-
 
 
 ```{r}
