@@ -1,0 +1,498 @@
+---
+title: "Ozone Research"
+author: "Emily McCarthy"
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+---
+
+## Introduction
+This notebook is my first attempt at working with R after not doing it for a loooooonngggg time so here we go!
+If successful, this notebook will analyze how air quality changes over time in STL and SLC.
+
+## Dependencies
+This notebook requires...
+
+```{r load-packages}
+# tidyverse packages
+library(dplyr)
+library(stringr)
+library(tibble)
+library(readr)
+library(tidyr)
+library(leaflet)
+library(mapview)
+
+# other packages
+library(here)
+library(sf)
+library(janitor)
+library(naniar)
+
+```
+
+## Load Data
+This notebook requires...
+
+```{r load-data}
+ozoneMo <- read_csv(here("data", "Ozone_2015.csv"))
+ozone2012 <- read_csv(here("data", "Ozone_2012.csv"))
+ozoneIL <- read_csv(here("data", "ILL_ozone_2015.csv"))
+ozoneMad <- read_csv(here("data", "madison_ozone.csv"))
+```
+
+## Part 1
+
+### Online Resources 
+
+- 9/18/2019:
+
+Sources used to find information about AQI and the ozone. 
+
+0-300 SCALE
+
+0-50 Safe 
+
+50-100 Moderate for sensitive groups
+
+100-150 Unhealthy for sensitive groups
+
+151+ Unhealthy for all groups
+
+https://ephtn.dhss.mo.gov/EPHTN_Data_Portal/airquality/pdf/aqibrochure.pdf
+https://ephtn.dhss.mo.gov/EPHTN_Data_Portal/airquality/index.php
+https://www3.epa.gov/aircompare/
+
+### Data Cleaning
+
+```{r}
+ozoneMo %>%
+  clean_names(case = "snake") -> ozoneMo
+
+```
+
+I will be subsetting the data in ozoneMO and ozone2012 so that only Metro West counties are included in these data. 
+
+```{r}
+ozoneMetro <- ozoneMo[which(ozoneMo$county_code == c(510, 189, 99, 183)),names(ozoneMo) %in% c("county_code", "site_num", "latitude", "longitude", "county_name", "date_local","aqi", "observation_count", "observation_percent", "x1st_max_value")]
+```
+
+```{r}
+ozoneMo %>%
+  filter('County Name' %in% c("St. Louis City", "Saint Louis", "Saint Charles", "Jefferson")) -> ozoneTest
+```
+
+- 10/01/2019:
+
+(meeting notes)
+#c("St. Louis City", "Saint Louis", "Saint Charles", "Jefferson")) -> ozoneMetro
+df $>$
+  filter(county_code %in% c("ham", "eggs", "bacon"))
+_______________
+
+I am now going to create geometry in the STL data set. 
+
+```{r}
+metro_sf <- st_as_sf(ozoneMetro, coords = c(x = "longitude", y = "latitude"), crs = 4269)
+```
+
+With this I will use leaflet to create a mapview map below
+
+```{r}
+mapview(metro_sf)
+```
+
+it didnt work! 
+
+Now I will repeat this process with 2012 ozone data. 
+
+```{r}
+#ozone_metro2012 <- ozone2012[which(ozone2012$county_code == c(510, 189, 99, 183)),names(ozone2012) #%in% c("county_code", "aqs_site_id", "site_latitude", "site_longitude", "county", #"date","daily_aqi_value", "daily_obs_count", "daily_max_8_hour_ozone_concentration")]
+```
+
+```{r}
+#sf2012 <- st_as_sf(ozone_metro2012, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269)
+```
+
+Preview of locations from 2012 dataset
+
+```{r}
+#mapview(sf2012)
+```
+
+- 10/13/2019:
+
+EPA air quality open data: https://aqs.epa.gov/// https://www.epa.gov/outdoor-air-quality-data
+Global open data index: https://index.okfn.org/
+
+I will be mapping the location of the AQI station in Metro-East. 
+
+```{r}
+#ozoneILsf <-st_as_sf(ozoneIL, coords = c(x = "SITE_LONGITUDE", y = "SITE_LATITUDE"), crs = 4269) 
+
+```
+
+```{r}
+#mapview(ozoneILsf)
+```
+
+May be a useful station to include for analysis of south city. 
+
+Counties to look for: Madison, Monroe 
+Create a single sf object with all station locations
+  use rbind(x,y) --> write to a shapefile
+A description of the results.
+
+- 10/29/2019:
+
+```{r}
+#ozoneMadSf <-st_as_sf(ozoneMad, coords = c(x = "SITE_LONGITUDE", y = "SITE_LATITUDE"), crs = 4269)
+#mapview(ozoneMadSf)
+```
+
+ I am unable to find data for Monroe county. 
+ 
+ I will now bind these locations to create one shapefile with locations. 
+
+```{r}
+#Ometro_sf <- rbind(ozoneMadSf, ozoneILsf, deparse.level = 1)
+#mapview(Ometro_sf)
+```
+ I will now continue to combine data sets beause I can bind two data frames at a time. 
+ 
+```{r}
+#Ometro_sf <- clean_names(Ometro_sf, case = "snake")
+```
+ 
+ 
+```{r}
+metro_sf <- select(metro_sf, "county_code", "county_name", "date_local", "observation_count", "observation_percent", "site_num", "aqi", "geometry")
+```
+ 
+```{r}
+#Ometro_sf %>%
+  rename(county_name = county,
+  date_local = date,
+  aqi = daily_aqi_value,
+  observation_count = daily_obs_count,
+  observation_percent = percent_complete,
+  x1st_max_value = daily_max_8_hour_ozone_concentration 
+) -> Ometro_names
+
+```
+
+```{r}
+#STLareaSF <- rbind(Ometro_names, metro_sf, deparse.level = 1)
+mapview(metro_sf)
+```
+
+- make shapefile of just locations
+- share .shp zip w/ Prener 
+
+```{r}
+# saving shapefile
+st_write(metro_sf, dsn = here("data", "stlmetrolocations.shp"), delete_dsn = TRUE)
+```
+
+- replace Ava's athsma data comparisions with redlining comparisons
+- summarize 50 words the relationship between redlining and comtemporary demographic %black/%poverty
+
+Subsetting all unhealthy (for sensitive groups) days throughout the year -- Days where AQI > 50
+
+```{r}
+metro_sf %>%
+  filter(metro_sf$aqi >= 50) %>%
+  group_by(site_num) %>%
+  summarise(count = n()) -> unhealthy15
+```
+
+## Part 2 
+Literally doing the exact same thing as above except for 2010-2014 
+
+loading data
+```{r}
+o2014 <- read_csv(here("data", "O_2014.csv"))
+o2013 <- read_csv(here("data", "O_2013.csv"))
+o2012 <- read_csv(here("data", "O_2012.csv"))
+o2011 <- read_csv(here("data", "O_2011.csv"))
+o2010 <- read_csv(here("data", "O_2010.csv"))
+```
+
+
+2014 sorting of necessary MO counties 
+```{r}
+o2014 %>%
+  clean_names(case = "snake") %>%
+  filter(o2014$COUNTY_CODE == c(510, 189, 99, 183)) -> o2014
+```
+```{r}
+select(o2014, "date", "aqs_site_id", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude") -> o2014
+```
+
+2013 ''
+```{r}
+o2013 %>%
+  clean_names(case = "snake") %>%
+  filter(o2013$COUNTY_CODE == c(510, 189, 99, 183)) -> o2013
+```
+```{r}
+select(o2013, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "aqs_site_id",) -> o2013
+```
+
+2012 ''
+```{r}
+o2012 %>%
+  clean_names(case = "snake") %>%
+  filter(o2012$COUNTY_CODE == c(510, 189, 099, 183)) -> o2012
+```
+```{r}
+select(o2012, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "aqs_site_id",) -> o2012
+```
+
+2011 '' 
+```{r}
+o2011 %>%
+  clean_names(case = "snake") %>%
+  filter(o2011$COUNTY_CODE == c(510, 189, 099, 183)) -> o2011
+```
+```{r}
+select(o2011, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "aqs_site_id") -> o2011
+```
+
+2010 '' 
+```{r}
+o2010 %>%
+  clean_names(case = "snake") %>%
+  filter(o2010$COUNTY_CODE == c(510, 189, 099, 183)) -> o2010
+```
+```{r}
+select(o2010, "sample_date", "daily_aqi_value", "county_code", "county", "latitude", "longitude", "aqs_site_id") -> o2010
+```
+
+
+Repeating the process for illinois -- reading data
+```{r}
+il2014 <- read_csv(here("data", "il2014.csv"))
+il2013 <- read_csv(here("data", "il2013.csv"))
+il2012 <- read_csv(here("data", "il2012.csv"))
+il2011 <- read_csv(here("data", "il2011.csv"))
+il2010 <- read_csv(here("data", "il2010.csv"))
+```
+
+selecting Madison and Saint Clair county
+```{r}
+il2014 %>%
+  clean_names(case = "snake") %>%
+  filter(il2014$COUNTY_CODE == c(119, 163)) -> il2014
+
+il2013 %>%
+  clean_names(case = "snake") %>%
+  filter(il2013$COUNTY_CODE == c(119, 163)) -> il2013
+
+il2012 %>%
+  clean_names(case = "snake") %>%
+  filter(il2012$COUNTY_CODE == c(119, 163)) -> il2012
+
+il2011 %>%
+  clean_names(case = "snake") %>%
+  filter(il2011$COUNTY_CODE == c(119, 163)) -> il2011
+
+il2010 %>%
+  clean_names(case = "snake") %>%
+  filter(il2010$COUNTY_CODE == c(119, 163)) -> il2010
+```
+```{r}
+select(il2014, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "site_id") -> il2014
+select(il2013, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "site_id") -> il2013
+select(il2012, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "site_id") -> il2012
+select(il2011, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "site_id") -> il2011
+select(il2010, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "site_id") -> il2010
+```
+
+Renaming "site_id" to "aqs_site_id" to bind tables
+```{r}
+il2014 %>%
+  rename(aqs_site_id = site_id) -> il2014
+il2013 %>%
+  rename(aqs_site_id = site_id) -> il2013
+il2012 %>%
+  rename(aqs_site_id = site_id) -> il2012
+il2011 %>%
+  rename(aqs_site_id = site_id) -> il2011
+il2010 %>%
+  rename(aqs_site_id = site_id) -> il2010
+```
+
+Renaming o2010 columns
+
+```{r}
+o2010 %>%
+  rename(date = sample_date,
+         site_latitude = latitude,
+         site_longitude = longitude) -> o2010
+```
+
+Joining illinois and missouri data
+```{r}
+o2014 %>%
+rbind(o2014, il2014, deparse.level = 1) -> il2014
+
+o2013 %>%
+rbind(o2013, il2013, deparse.level = 1) -> il2013
+
+o2012 %>%
+rbind(o2012, il2012, deparse.level = 1) -> il2012
+
+o2011 %>%
+rbind(o2011, il2011, deparse.level = 1) -> il2011
+
+o2010 %>%
+  rbind(o2010, il2010, desparse.level = 1) -> il2010
+```
+
+```{r}
+st_as_sf(o2014, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269) -> o2014
+st_as_sf(o2013, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269) -> o2013
+st_as_sf(o2012, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269) -> o2012
+st_as_sf(o2011, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269) -> o2011
+```
+```{r}
+st_as_sf(o2010, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269) -> o2010
+```
+
+creating count of unhealthy groups
+```{r}
+o2014 %>%
+  filter(o2014$daily_aqi_value >= 50) %>%
+  group_by(aqs_site_id) %>%
+  summarise(count = n()) -> unhealthy14
+
+o2013 %>%
+  filter(o2013$daily_aqi_value >= 50) %>%
+  group_by(aqs_site_id) %>%
+  summarise(count = n()) -> unhealthy13
+
+o2012 %>%
+  filter(o2012$daily_aqi_value >= 50) %>%
+  group_by(aqs_site_id) %>%
+  summarise(count = n()) -> unhealthy12
+
+o2011 %>%
+  filter(o2011$daily_aqi_value >= 50) %>%
+  group_by(aqs_site_id) %>%
+  summarise(count = n()) -> unhealthy11
+
+o2010 %>%
+  filter(o2010$daily_aqi_value >= 50) %>%
+  group_by(aqs_site_id) %>%
+  summarise(count = n()) -> unhealthy10
+```
+
+## Part 3: Kriging
+
+```{r}
+library(rspatial)
+```
+
+```{r}
+as_Spatial(unhealthy15)
+```
+
+```{r}
+library(gstat)
+gs <- gstat(formula=count~1, locations=unhealthy15)
+v <- variogram(gs, width=20)
+head(v)
+plot(v)
+```
+
+Getting stuck on code below
+
+```{r}
+fve <- fit.variogram(v, vgm(85, "Exp", 75, 20))
+fve
+plot(variogramLine(fve, 400), type='l', ylim=c(0,120))
+points(v[,2:3], pch=20, col='red')
+```
+
+
+#### Pre-SP CONVERSION
+
+```{r}
+as_Spatial(unhealthy15)
+```
+
+```{r}
+mutate(unhealthy15, count = as.numeric(count), site_num = as.numeric(site_num)) -> unhealthy15n
+```
+
+
+```{r}
+library(rspatial)
+unhealthy15n$prec <- plot(sort(unhealthy15n$prec), ylab='Unhealthy Days', las=1, xlab='site_num')
+```
+
+```{r}
+library(rspatial)
+x <- sp_data("airqual")
+x$OZDLYAV <- x$OZDLYAV * 1000
+```
+
+
+```{r}
+library(gstat)
+gs <- gstat(formula=OZDLYAV~1, locations=unhealthy15n)
+v <- variogram(gs, width=20)
+head(v)
+plot(v)
+```
+
+
+```{r}
+library(sp)
+library(gstat)
+gs <- gstat(formula=prec~1, locations=unhealthy15n, nmax=5, set=list(idp = 0))
+nn <- interpolate(r, gs)
+## [inverse distance weighted interpolation]
+nnmsk <- mask(nn, vr)
+plot(nnmsk)
+```
+
+```{r}
+#Variogram from R pdf
+library(gstat)
+lzn.vgm = variogram(log(count)~1, unhealthy15n)
+lzn.vgm
+```
+
+```{r}
+lzn.fit = fit.variogram(lzn.vgm, model = vgm(1, "Sph", 900, 1))
+lzn.fit
+```
+
+```{r}
+plot(lzn.vgm, lzn.fit)
+```
+
+```{r}
+#lznr.vgm = variogram(log(count)~sqrt(dist), unhealthy15n)
+data(unhealthy15n.grid)
+```
+
+```{r}
+library(stars)
+lzn.kriged = krige(log(count)~1, unhealthy15n, unhealthy15n, model = lzn.fit)
+```
+```{r}
+library(sp)
+spplot(lzn.kriged["var1.pred"])
+```
+```{r}
+lzn.idw = idw(count~1, unhealthy15n, unhealthy15n)
+spplot(lzn.idw["var1.pred"], main = "u15 idw")
+```
+
+- Small multiples on right side and metro map with estimated air values
+- Left demographic data
+- Center textboxes

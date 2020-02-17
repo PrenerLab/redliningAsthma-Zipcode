@@ -8,10 +8,9 @@ output:
 ---
 
 ## Introduction
-This notebook...
-
+This notebook contains asthma data analyzed by Ava.
 ## Dependencies
-This notebook requires...
+This notebook requires the following packages: 
 
 ```{r load-packages}
 # tidyverse packages
@@ -29,16 +28,13 @@ library(here)        # file path management
 library(naniar)      # missing data
 library(ggplot2)
 library(viridis)      # palettes
-library(leaflet)
 library(tidycensus) 
 library(sp)
 library(ggplot2)   
 library(RColorBrewer)  # color palettes
 library(viridis)       # color palettes
 
-
 ```
-
 
 
 ## Load Data 2015
@@ -48,7 +44,6 @@ asthma is for 2015
 ```{r load-data}
 asthma <- read_csv(here("data", "asthma.csv"))
 ```
-
 
 Getting rid of first three rows bc they are pointless text. 
 ```{r p1-q1}
@@ -71,7 +66,6 @@ mutate(asthma_sliced, count = ifelse(count == "x", NA, count)) -> asthma_cleaned
 ```{r}
 mutate(asthma_sliced, count = as.numeric(count)) -> asthma_cleaned
 ```
-`
 
 loading Mo zip codes 
 ```{r}
@@ -120,6 +114,7 @@ mutate(asthma14_sliced, count = ifelse(count == "x", NA, count)) -> asthma14_cle
 ```{r}
 mutate(asthma14_sliced, count = as.numeric(count)) -> asthma14_cleaned
 ```
+
 left join to asthma_cleaned by zip. Now table has data for both 2014 and 2015 
 ```{r}
 left_join(asthma_cleaned, asthma14_cleaned, by = "zip") -> joined_14_15
@@ -130,6 +125,7 @@ loading asthma data for 2013
 ```{r}
 asthma_2013 <- read_csv(here("data", "asthma2013.csv")) 
 ```
+
 Getting rid of first 4 rows bc they have no data 
 ```{r}
 asthma_2013 %>%
@@ -151,7 +147,8 @@ mutate(asthma13_sliced, count_13 = ifelse(count_13 == "x", NA, count_13)) -> ast
 ```{r}
 mutate(asthma13_sliced, count_13 = as.numeric(count_13)) -> asthma13_cleaned
 ```
-left joing to joined_14_15, so table now has data for years 2013, 2014, and 2015 
+
+left joining to joined_14_15, so table now has data for years 2013, 2014, and 2015 
 ```{r}
 left_join(joined_14_15, asthma13_cleaned, by = "zip") -> joined_13_14_15
 ```
@@ -183,7 +180,8 @@ mutate(asthma12_sliced, count_12 = ifelse(count_12 == "x", NA, count_12)) -> ast
 ```{r}
 mutate(asthma12_sliced, count_12 = as.numeric(count_12)) -> asthma12_cleaned
 ```
-left joing to joined_13_14_15 by zip. Table now has data for 2012 through 2015 
+
+left joining to joined_13_14_15 by zip. Table now has data for 2012 through 2015 
 ```{r}
 left_join(joined_13_14_15, asthma12_cleaned, by = "zip") -> joined12_15
 ```
@@ -193,6 +191,7 @@ loading data for 2011
 ```{r}
 asthma_2011 <- read_csv(here("data", "asthma2011.csv")) 
 ```
+
 getting rid of empty cols
 ```{r}
 asthma_2011 %>%
@@ -211,7 +210,6 @@ changing X to NA, and changing count to be numeric
 ```{r}
 mutate(asthma11_sliced, count_11 = ifelse(count_11 == "x", NA, count_11)) -> asthma11_cleaned
 ```
-
 ```{r}
 mutate(asthma11_sliced, count_11 = as.numeric(count_11)) -> asthma11_cleaned
 ```
@@ -242,8 +240,6 @@ asthma_full_11_15 %>%
   filter(zip >= (63005))%>%
   filter(zip <= (63390)) -> asthma_metro
 ```
-
-  
 ```{r}
 exclude <- c(63091, 63155, 63333, 63334, 63336, 63339, 63344, 63345, 63350, 63351, 63352, 63353, 63359, 63359, 63361, 63363, 63382, 63388, 63384, 63036, 63087, 63330)
 ```
@@ -317,7 +313,7 @@ ggplot() +
 
 ## saving csv file for Asthma data for years 2011-2015
 ```{r}
-write.csv(count_by_pop, here("csv", "asthmaCount11_15.csv"))
+write.csv(count_by_pop, here("data","csv", "asthmaCount11_15.csv"))
 ```
 
 
@@ -347,13 +343,13 @@ aa_metro <- left_join(count_by_pop, aa, by = "zip")
 
 saving csv file for % african american 
 ```{r}
-write.csv(aa_metro, here("csv", "percent_aa.csv"))
+write.csv(aa_metro, here("data","csv", "percent_aa.csv"))
 ```
 
 saving as shapefile
 ```{r}
-dir.create(here("csv", "precent_aa"))
-st_write(aa_metro, dsn = here("csv","precent_aa", "precent_aa.shp"), delete_dsn = TRUE)
+dir.create(here("data","csv", "precent_aa"))
+st_write(aa_metro, dsn = here("data","csv","precent_aa", "precent_aa.shp"), delete_dsn = TRUE)
 ```
 
 ## loading data for median income
@@ -384,13 +380,13 @@ median_income <- left_join(count_by_pop, median_income, by = "zip")
 saving csv file for median income 
 
 ```{r}
-write.csv(median_income, here("csv", "median_income.csv"))
+write.csv(median_income, here("data","csv", "median_income.csv"))
 ```
 
 saving as shapefile
 ```{r}
-dir.create(here("csv", "median_income"))
-st_write(median_income, dsn = here("csv","median_income", "median_income.shp"), delete_dsn = TRUE)
+dir.create(here("data","csv", "median_income"))
+st_write(median_income, dsn = here("data","csv","median_income", "median_income.shp"), delete_dsn = TRUE)
 ```
 
 ## loading data for median home value 
@@ -420,13 +416,13 @@ home_metro <- left_join(count_by_pop, home_value, by = "zip")
 Saving csv file for median home value
 
 ```{r}
-write.csv(home_metro, here("csv", "median_home.csv"))
+write.csv(home_metro, here("data","csv", "median_home.csv"))
 ```
 
 saving as shapefile 
 ```{r}
-dir.create(here("csv", "home_value"))
-st_write(home_metro, dsn = here("csv","home_value", "home_value.shp"), delete_dsn = TRUE)
+dir.create(here("data","csv", "home_value"))
+st_write(home_metro, dsn = here("data","csv","home_value", "home_value.shp"), delete_dsn = TRUE)
 ```
 
 
@@ -457,13 +453,13 @@ med_metro <- left_join(count_by_pop, medicaid, by = "zip")
 saving csv file
 
 ```{r}
-write.csv(med_metro, here("csv", "medicaid.csv"))
+write.csv(med_metro, here("data","csv", "medicaid.csv"))
 ```
 
 saving as shapefile
 ```{r}
-dir.create(here("csv", "medicaid"))
-st_write(med_metro, dsn = here("csv","medicaid", "medicaid.shp"), delete_dsn = TRUE)
+dir.create(here("data","csv", "medicaid"))
+st_write(med_metro, dsn = here("data","csv","medicaid", "medicaid.shp"), delete_dsn = TRUE)
 ```
 
 ## loading data for % under poverty line
@@ -486,6 +482,7 @@ poverty %>%
 ```{r}
 poverty <- left_join(poverty, poverty_total, by = "GEOID") 
 ```
+
 normalizing by povery total 
 ```{r}
 poverty %>%
@@ -501,13 +498,13 @@ poverty_metro <- left_join(count_by_pop, poverty, by = "zip")
 
 saving as csv file 
 ```{r}
-write.csv(poverty_metro, here("csv", "poverty.csv"))
+write.csv(poverty_metro, here("data","csv", "poverty.csv"))
 
 ```
 
 ```{r}
-dir.create(here("csv", "poverty"))
-st_write(poverty_metro, dsn = here("csv","poverty", "poverty.shp"), delete_dsn = TRUE)
+dir.create(here("data","csv", "poverty"))
+st_write(poverty_metro, dsn = here("data","csv","poverty", "poverty.shp"), delete_dsn = TRUE)
 ```
 
 

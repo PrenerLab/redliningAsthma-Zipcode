@@ -7,9 +7,33 @@ output:
   html_notebook: default 
 ---
 
+```{r}
+# tidyverse packages
+library(dplyr)       # data wrangling
+library(readr)       # read/write tabular data
+library(stringr)     # work with strings
+library(tidyr)       # data wrangling
+# spatial packages
+library(janitor)     # data wrangling
+library(sf)          # spatial data tools
+library(mapview)     # projections
+library(tigris)      # census data wrangling 
+# other packages
+library(here)        # file path management
+library(naniar)      # missing data
+library(ggplot2)
+library(viridis)      # palettes
+library(leaflet)
+library(tidycensus) 
+library(sp)
+library(ggplot2)   
+library(RColorBrewer)  # color palettes
+library(viridis)       # color palettes
+```
+
 
 ```{r}
-csv_pov <- read_csv(here("csv", "poverty.csv"))
+csv_pov <- read_csv(here("data", "csv", "poverty 2.csv"))
 ```
 
 ```{r}
@@ -21,7 +45,7 @@ ggplot(csv_pov, aes(x = density, y = count))+ geom_point(shape = 21)+
 trying with shapefile 
 
 ```{r}
-shapefile_pov <- st_read(here("csv", "poverty", "poverty.shp"), stringsAsFactors = FALSE)
+shapefile_pov <- st_read(here("data","csv", "poverty", "poverty.shp"), stringsAsFactors = FALSE)
 ```
 
 ```{r}
@@ -30,7 +54,7 @@ ggplot(shapefile_pov, aes(x = density, y = count))+ geom_point(shape = 21)+
    geom_smooth(method='lm')
 ```
 ```{r}
-shapefile_income <- st_read(here("csv", "median_income", "median_income.shp"), stringsAsFactors = FALSE)
+shapefile_income <- st_read(here("data","csv", "median_income", "median_income.shp"), stringsAsFactors = FALSE)
 ```
 
 
@@ -41,7 +65,7 @@ ggplot(shapefile_income, aes(x = estimate_x, y = count))+ geom_point(shape = 21)
 ```
 
 ```{r}
-shapefile_medicaid <- st_read(here("csv", "medicaid", "medicaid.shp"), stringsAsFactors = FALSE)
+shapefile_medicaid <- st_read(here("data","csv", "medicaid", "medicaid.shp"), stringsAsFactors = FALSE)
 ```
 ```{r}
 ggplot(shapefile_medicaid, aes(x = percent, y = count))+ geom_point(shape = 21)+
@@ -51,7 +75,7 @@ ggplot(shapefile_medicaid, aes(x = percent, y = count))+ geom_point(shape = 21)+
 
 
 ```{r}
-shapefile_aa <- st_read(here("csv", "precent_aa", "precent_aa.shp"), stringsAsFactors = FALSE)
+shapefile_aa <- st_read(here("data","csv", "precent_aa", "precent_aa.shp"), stringsAsFactors = FALSE)
 ```
 
 ```{r}
@@ -61,7 +85,7 @@ ggplot(shapefile_aa, aes(x = percent, y = count))+ geom_point(shape = 21)+
 ```
 
 ```{r}
-shapefile_home <- st_read(here("csv", "home_value", "home_value.shp"), stringsAsFactors = FALSE)
+shapefile_home <- st_read(here("data","csv", "home_value", "home_value.shp"), stringsAsFactors = FALSE)
 ```
 ```{r}
 ggplot(home_metro, aes(x = estimate.x, y = count))+ geom_point(shape = 21)+
