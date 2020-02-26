@@ -496,3 +496,12 @@ spplot(lzn.idw["var1.pred"], main = "u15 idw")
 - Small multiples on right side and metro map with estimated air values
 - Left demographic data
 - Center textboxes
+
+## Plotting
+
+```{r}
+ggplot() +
+    geom_sf(data = unhealthy14, mapping = aes(fill = count)) +
+  scale_fill_distiller(palette = "Greens", trans ="reverse")
+```
+

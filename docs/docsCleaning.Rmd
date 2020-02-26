@@ -67,6 +67,8 @@ mutate(asthma_sliced, count = ifelse(count == "x", NA, count)) -> asthma_cleaned
 mutate(asthma_sliced, count = as.numeric(count)) -> asthma_cleaned
 ```
 
+## Intermission for intro of Zip Codes 
+
 loading Mo zip codes 
 ```{r}
 moZip <- zctas(state = "Missouri", year = 2010,
@@ -230,6 +232,7 @@ rename(
   count_14 = count.y,
   count_15 = count.x
 ) -> asthma_full_11_15
+# See line514 for small multiples
 ```
 
 ## Zip codes for St Louis metro area
@@ -505,6 +508,126 @@ write.csv(poverty_metro, here("data","csv", "poverty.csv"))
 ```{r}
 dir.create(here("data","csv", "poverty"))
 st_write(poverty_metro, dsn = here("data","csv","poverty", "poverty.shp"), delete_dsn = TRUE)
+```
+
+## Small Multiples Asthma
+download county geometry, st_clip, just stlc and county
+
+Adding county geometry
+```{r}
+counties <- st_read(here("data", "METRO_BOUNDARY_Counties", "METRO_BOUNDARY_Counties.shp"), stringsAsFactors = FALSE)
+```
+
+```{r}
+counties %>%
+  filter(COUNTYFP %in% c(189, 510)) -> metrocounties
+```
+
+```{r}
+asthma_metro_2 <- st_transform(asthma_metro_2, 26915)
+mapview::mapview(metrocounties)
+```
+
+```{r}
+st_intersection(asthma_metro_2, metrocounties) -> asthma_metro_2
+```
+
+```{r}
+intersect <- st_collection_extract(asthma_metro_2, "POLYGON")
+```
+
+
+#### NEXT WEEK
+-44x40 in poster - 6 maps
+-st_intersection -works the same as st_crop
+  - but it returns a geometry selection so instead 
+-RColorBrewer
+
+
+2015 Asthma Hospitalizations
+```{r}
+ggplot() +
+  geom_sf(data = intersect, mapping = aes(fill = count_15)) +
+  scale_fill_distiller(palette = "Purples", trans ="reverse") -> hos15
+hos15
+```
+
+```{r}
+ggsave(here("results", "hos15.png"), plot = hos15, dpi = 500)
+```
+
+2014 Hospitalizations
+
+```{r}
+ggplot() +
+    geom_sf(data = intersect, mapping = aes(fill = count_14)) +
+  scale_fill_distiller(palette = "Blues", trans ="reverse") -> hos14
+hos14
+```
+
+```{r}
+ggsave(here("results", "hos14.png"), plot = hos14, dpi = 500)
+```
+
+2013 Hospitalizations
+
+```{r}
+ggplot() +
+    geom_sf(data = intersect, mapping = aes(fill = count_13)) +
+  scale_fill_distiller(palette = "YlGnBu", trans ="reverse") -> hos13
+hos13
+```
+
+```{r}
+ggsave(here("results", "hos13.png"), plot = hos13, dpi = 500)
+```
+
+2012 Hospitalizations
+
+```{r}
+ggplot() +
+    geom_sf(data = intersect, mapping = aes(fill = count_12)) +
+  scale_fill_distiller(palette = "Oranges", trans ="reverse") -> hos12
+hos12
+```
+
+```{r}
+ggsave(here("results", "hos12.png"), plot = hos12, dpi = 500)
+```
+
+2011 Hospitalizations
+
+```{r}
+ggplot() +
+    geom_sf(data = intersect, mapping = aes(fill = count_11)) +
+  scale_fill_distiller(palette = "Reds", trans ="reverse") -> hos11
+hos11
+```
+
+```{r}
+ggsave(here("results", "hos11.png"), plot = hos11, dpi = 500)
+```
+
+Repeating the 'st_intersection' function with overall hospitalizations
+
+```{r}
+asthma_count_total<- st_transform(asthma_count_total, 26915)
+st_intersection(asthma_count_total, metrocounties) -> asthma_count_total
+intersect_total <- st_collection_extract(asthma_count_total, "POLYGON")
+```
+
+plotting total hospitalizations GGPLOT
+
+```{r}
+ggplot() +
+    geom_sf(data = intersect_total, mapping = aes(fill = total)) +
+  scale_fill_distiller(palette = "Spectral", trans =) -> all_hos
+all_hos
+```
+
+Saving Maps as .png
+```{r}
+ggsave(here("results", "all_hos.png"), plot = all_hos, dpi = 500)
 ```
 
 
