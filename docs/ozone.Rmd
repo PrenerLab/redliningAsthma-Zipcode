@@ -74,13 +74,14 @@ ozoneMo %>%
 
 I will be subsetting the data in ozoneMO and ozone2012 so that only Metro West counties are included in these data. 
 
-```{r}
+```r
 ozoneMetro <- ozoneMo[which(ozoneMo$county_code == c(510, 189, 99, 183)),names(ozoneMo) %in% c("county_code", "site_num", "latitude", "longitude", "county_name", "date_local","aqi", "observation_count", "observation_percent", "x1st_max_value")]
 ```
 
 ```{r}
 ozoneMo %>%
-  filter('County Name' %in% c("St. Louis City", "Saint Louis", "Saint Charles", "Jefferson")) -> ozoneTest
+  filter(county_code %in% c(510, 189, 99, 183)) %>%
+  select(county_code, site_num, latitude, longitude, county_name, date_local, aqi, observation_count, observation_percent, x1st_max_value) -> ozoneMetro
 ```
 
 - 10/01/2019:
@@ -170,8 +171,8 @@ A description of the results.
 metro_sf <- select(metro_sf, "county_code", "county_name", "date_local", "observation_count", "observation_percent", "site_num", "aqi", "geometry")
 ```
  
-```{r}
-#Ometro_sf %>%
+```r
+Ometro_sf %>%
   rename(county_name = county,
   date_local = date,
   aqi = daily_aqi_value,
@@ -216,59 +217,29 @@ o2014 <- read_csv(here("data", "O_2014.csv"))
 o2013 <- read_csv(here("data", "O_2013.csv"))
 o2012 <- read_csv(here("data", "O_2012.csv"))
 o2011 <- read_csv(here("data", "O_2011.csv"))
-o2010 <- read_csv(here("data", "O_2010.csv"))
 ```
 
 
-2014 sorting of necessary MO counties 
 ```{r}
-o2014 %>%
-  clean_names(case = "snake") %>%
-  filter(o2014$COUNTY_CODE == c(510, 189, 99, 183)) -> o2014
-```
-```{r}
-select(o2014, "date", "aqs_site_id", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude") -> o2014
-```
-
-2013 ''
-```{r}
-o2013 %>%
-  clean_names(case = "snake") %>%
-  filter(o2013$COUNTY_CODE == c(510, 189, 99, 183)) -> o2013
-```
-```{r}
-select(o2013, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "aqs_site_id",) -> o2013
+clean_asthma <- function(.data){
+  
+  .data <- janitor::clean_names(.data, case = "snake")
+  .data <- dplyr::filter(.data, county_code %in% c(510, 189, 99, 183))
+  .data <- dplyr::select(.data, date, aqs_site_id, daily_aqi_value, county_code, county, site_latitude, site_longitude)
+  
+  return(.data)
+  
+}
 ```
 
-2012 ''
+
 ```{r}
-o2012 %>%
-  clean_names(case = "snake") %>%
-  filter(o2012$COUNTY_CODE == c(510, 189, 099, 183)) -> o2012
-```
-```{r}
-select(o2012, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "aqs_site_id",) -> o2012
+o2014 <- clean_asthma(o2014)
+o2013 <- clean_asthma(o2013)
+o2012 <- clean_asthma(o2012)
+o2011 <- clean_asthma(o2011)
 ```
 
-2011 '' 
-```{r}
-o2011 %>%
-  clean_names(case = "snake") %>%
-  filter(o2011$COUNTY_CODE == c(510, 189, 099, 183)) -> o2011
-```
-```{r}
-select(o2011, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "aqs_site_id") -> o2011
-```
-
-2010 '' 
-```{r}
-o2010 %>%
-  clean_names(case = "snake") %>%
-  filter(o2010$COUNTY_CODE == c(510, 189, 099, 183)) -> o2010
-```
-```{r}
-select(o2010, "sample_date", "daily_aqi_value", "county_code", "county", "latitude", "longitude", "aqs_site_id") -> o2010
-```
 
 
 Repeating the process for illinois -- reading data
@@ -284,23 +255,23 @@ selecting Madison and Saint Clair county
 ```{r}
 il2014 %>%
   clean_names(case = "snake") %>%
-  filter(il2014$COUNTY_CODE == c(119, 163)) -> il2014
+  filter(county_code %in% c(119, 163)) -> il2014
 
 il2013 %>%
   clean_names(case = "snake") %>%
-  filter(il2013$COUNTY_CODE == c(119, 163)) -> il2013
+  filter(county_code %in% c(119, 163)) -> il2013
 
 il2012 %>%
   clean_names(case = "snake") %>%
-  filter(il2012$COUNTY_CODE == c(119, 163)) -> il2012
+  filter(county_code %in% c(119, 163)) -> il2012
 
 il2011 %>%
   clean_names(case = "snake") %>%
-  filter(il2011$COUNTY_CODE == c(119, 163)) -> il2011
+  filter(county_code %in% c(119, 163)) -> il2011
 
 il2010 %>%
   clean_names(case = "snake") %>%
-  filter(il2010$COUNTY_CODE == c(119, 163)) -> il2010
+  filter(county_code %in% c(119, 163)) -> il2010
 ```
 ```{r}
 select(il2014, "date", "daily_aqi_value", "county_code", "county", "site_latitude", "site_longitude", "site_id") -> il2014
@@ -326,7 +297,7 @@ il2010 %>%
 
 Renaming o2010 columns
 
-```{r}
+```r
 o2010 %>%
   rename(date = sample_date,
          site_latitude = latitude,
@@ -346,9 +317,6 @@ rbind(o2012, il2012, deparse.level = 1) -> il2012
 
 o2011 %>%
 rbind(o2011, il2011, deparse.level = 1) -> il2011
-
-o2010 %>%
-  rbind(o2010, il2010, desparse.level = 1) -> il2010
 ```
 
 ```{r}
@@ -357,7 +325,9 @@ st_as_sf(o2013, coords = c(x = "site_longitude", y = "site_latitude"), crs = 426
 st_as_sf(o2012, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269) -> o2012
 st_as_sf(o2011, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269) -> o2011
 ```
-```{r}
+
+
+```r
 st_as_sf(o2010, coords = c(x = "site_longitude", y = "site_latitude"), crs = 4269) -> o2010
 ```
 
@@ -383,10 +353,6 @@ o2011 %>%
   group_by(aqs_site_id) %>%
   summarise(count = n()) -> unhealthy11
 
-o2010 %>%
-  filter(o2010$daily_aqi_value >= 50) %>%
-  group_by(aqs_site_id) %>%
-  summarise(count = n()) -> unhealthy10
 ```
 
 ## Part 3: Kriging
@@ -396,7 +362,7 @@ library(rspatial)
 ```
 
 ```{r}
-as_Spatial(unhealthy15)
+unhealthy15 <- as_Spatial(unhealthy15)
 ```
 
 ```{r}
@@ -452,17 +418,22 @@ plot(v)
 ```{r}
 library(sp)
 library(gstat)
-gs <- gstat(formula=prec~1, locations=unhealthy15n, nmax=5, set=list(idp = 0))
+gs <- gstat(formula=prec~1, locations=unhealthy15, nmax=5, set=list(idp = 0))
 nn <- interpolate(r, gs)
 ## [inverse distance weighted interpolation]
-nnmsk <- mask(nn, vr)
+nnmsk <- mask(nn, vr
 plot(nnmsk)
 ```
 
 ```{r}
-#Variogram from R pdf
 library(gstat)
-lzn.vgm = variogram(log(count)~1, unhealthy15n)
+```
+
+
+```{r}
+#Variogram from R pdf
+
+lzn.vgm = variogram(log(count)~1, unhealthy15)
 lzn.vgm
 ```
 
